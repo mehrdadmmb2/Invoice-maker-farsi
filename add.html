@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ساخت فاکتور</title>
+    <style>
+        /* تعریف فونت B Nazanin */
+        @font-face {
+            font-family: 'B Nazanin';
+            src: url('https://fonts.googleapis.com/css2?family=BNazanin&display=swap');
+        }
+
+        body {
+            font-family: 'B Nazanin', Arial, sans-serif;
+            direction: rtl;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-container, .invoice-container {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .form-container h2, .invoice-container h1 {
+            color: #003366;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group button {
+            background-color: #003366;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group button:hover {
+            background-color: #002244;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .invoice-table th {
+            background-color: #003366;
+            color: #fff;
+        }
+        .invoice-total {
+            text-align: left;
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+        }
+        .invoice-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .action-buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .action-buttons button.print {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .action-buttons button.back {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- فرم ورود اطلاعات -->
+        <div class="form-container" id="formContainer">
+            <h2>فرم ایجاد فاکتور</h2>
+            <form id="invoiceForm">
+                <div class="form-group">
+                    <label for="sellerName">نام فروشنده:</label>
+                    <input type="text" id="sellerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="buyerName">نام خریدار:</label>
+                    <input type="text" id="buyerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="invoiceNumber">شماره فاکتور:</label>
+                    <input type="text" id="invoiceNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="invoiceDate">تاریخ فاکتور:</label>
+                    <input type="date" id="invoiceDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="items">آیتم‌ها (هر خط یک آیتم):</label>
+                    <textarea id="items" rows="5" required></textarea>
+                    <small>فرمت: نام آیتم, تعداد, قیمت واحد (مثال: کالای نمونه ۱, ۲, ۱۰۰۰۰۰)</small>
+                </div>
+                <div class="form-group">
+                    <button type="submit">ایجاد فاکتور</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- بخش نمایش فاکتور -->
+        <div class="invoice-container" id="invoiceContainer" style="display: none;">
+            <h1>فاکتور فروش</h1>
+            <div class="invoice-details">
+                <div>
+                    <strong>فروشنده:</strong> <span id="displaySellerName"></span><br>
+                    <strong>خریدار:</strong> <span id="displayBuyerName"></span><br>
+                    <strong>شماره فاکتور:</strong> <span id="displayInvoiceNumber"></span><br>
+                    <strong>تاریخ:</strong> <span id="displayInvoiceDate"></span>
+                </div>
+            </div>
+            <table class="invoice-table" id="invoiceTable">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>نام کالا</th>
+                        <th>تعداد</th>
+                        <th>قیمت واحد</th>
+                        <th>مبلغ کل</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- آیتم‌ها اینجا نمایش داده می‌شوند -->
+                </tbody>
+            </table>
+            <div class="invoice-total">
+                <strong>جمع کل:</strong> <span id="totalAmount">۰ تومان</span>
+            </div>
+            <div class="invoice-footer">
+                <p>ممنون از خرید شما!</p>
+                <p>لطفاً در صورت وجود هرگونه سوال یا مشکل با ما تماس بگیرید.</p>
+            </div>
+            <!-- دکمه‌های اقدام -->
+            <div class="action-buttons">
+                <button class="print" onclick="window.print()">پرینت فاکتور</button>
+                <button class="back" onclick="showForm()">بازگشت به ویرایش</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- کتابخانه تاریخ شمسی -->
+    <script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.js"></script>
+    <script>
+        // تابع تبدیل تاریخ میلادی به شمسی
+        function toJalaliDate(date) {
+            const [year, month, day] = date.split('-');
+            const jalaliDate = jalaali.toJalaali(parseInt(year), parseInt(month), parseInt(day));
+            return `${jalaliDate.jy}/${jalaliDate.jm}/${jalaliDate.jd}`;
+        }
+
+        // تابع نمایش فرم و پنهان کردن فاکتور
+        function showForm() {
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('invoiceContainer').style.display = 'none';
+        }
+
+        // مدیریت ارسال فرم
+        document.getElementById('invoiceForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // دریافت اطلاعات از فرم
+            const sellerName = document.getElementById('sellerName').value;
+            const buyerName = document.getElementById('buyerName').value;
+            const invoiceNumber = document.getElementById('invoiceNumber').value;
+            const invoiceDate = document.getElementById('invoiceDate').value;
+            const items = document.getElementById('items').value.split('\n');
+
+            // تبدیل تاریخ به شمسی
+            const jalaliDate = toJalaliDate(invoiceDate);
+
+            // نمایش اطلاعات در فاکتور
+            document.getElementById('displaySellerName').textContent = sellerName;
+            document.getElementById('displayBuyerName').textContent = buyerName;
+            document.getElementById('displayInvoiceNumber').textContent = invoiceNumber;
+            document.getElementById('displayInvoiceDate').textContent = jalaliDate;
+
+            // ایجاد ردیف‌های جدول
+            const tbody = document.querySelector('#invoiceTable tbody');
+            tbody.innerHTML = ''; // پاک کردن محتوای قبلی
+            let totalAmount = 0;
+
+            items.forEach((item, index) => {
+                const [name, quantity, price] = item.split(',').map(str => str.trim());
+                const total = parseInt(quantity) * parseInt(price);
+                totalAmount += total;
+
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${name}</td>
+                        <td>${quantity}</td>
+                        <td>${parseInt(price).toLocaleString()} تومان</td>
+                        <td>${total.toLocaleString()} تومان</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+
+            // نمایش جمع کل
+            document.getElementById('totalAmount').textContent = totalAmount.toLocaleString() + ' تومان';
+
+            // نمایش بخش فاکتور و پنهان کردن فرم
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('invoiceContainer').style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
