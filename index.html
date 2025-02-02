@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فاکتور</title>
+    <style>
+      
+        @font-face {
+            font-family: 'B Nazanin';
+            src: url('https://fonts.googleapis.com/css2?family=BNazanin&display=swap');
+        }
+
+        body {
+            font-family: 'B Nazanin', Arial, sans-serif;
+            direction: rtl;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .invoice-header h1 {
+            color: #003366;
+            margin: 0;
+        }
+        .invoice-header p {
+            color: #666;
+            margin: 5px 0;
+        }
+        .invoice-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+        }
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .invoice-details div {
+            flex: 1;
+            padding: 10px;
+        }
+        .invoice-details div:not(:last-child) {
+            border-left: 1px solid #ddd;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .invoice-table th {
+            background-color: #003366;
+            color: #fff;
+        }
+        .invoice-total {
+            text-align: left;
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+        }
+        .invoice-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invoice-container">
+        <!-- لوگوی فروشگاه -->
+        <img src="https://img.freepik.com/premium-vector/lettering-calligraphic-vintage-composition_949698-697.jpg?ga=GA1.1.192448930.1710253820&semt=ais_hybrid" alt="لوگوی فروشگاه" class="invoice-logo">
+
+        <div class="invoice-header">
+            <h1>فاکتور فروش</h1>
+            <p>شماره فاکتور: ۱۲۳۴۵۶</p>
+            <p>تاریخ: ۱۴۰۲/۰۷/۲۵</p>
+        </div>
+
+        <div class="invoice-details">
+            <div>
+                <strong>فروشنده:</strong><br>
+                شرکت نمونه<br>
+                آدرس: تهران، خیابان نمونه، پلاک ۱۲۳<br>
+                تلفن: ۰۲۱-۱۲۳۴۵۶۷۸
+            </div>
+            <div>
+                <strong>خریدار:</strong><br>
+                آقای/خانم نمونه<br>
+                آدرس: اصفهان، خیابان نمونه، پلاک ۴۵۶<br>
+                تلفن: ۰۳۱-۸۷۶۵۴۳۲۱
+            </div>
+        </div>
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>ردیف</th>
+                    <th>نام کالا</th>
+                    <th>تعداد</th>
+                    <th>قیمت واحد</th>
+                    <th>مبلغ کل</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>۱</td>
+                    <td>کالای نمونه ۱</td>
+                    <td>۲</td>
+                    <td>۱۰۰,۰۰۰ تومان</td>
+                    <td>۲۰۰,۰۰۰ تومان</td>
+                </tr>
+                <tr>
+                    <td>۲</td>
+                    <td>کالای نمونه ۲</td>
+                    <td>۱</td>
+                    <td>۱۵۰,۰۰۰ تومان</td>
+                    <td>۱۵۰,۰۰۰ تومان</td>
+                </tr>
+                <tr>
+                    <td>۳</td>
+                    <td>کالای نمونه ۳</td>
+                    <td>۳</td>
+                    <td>۵۰,۰۰۰ تومان</td>
+                    <td>۱۵۰,۰۰۰ تومان</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="invoice-total">
+            <strong>جمع کل:</strong> ۵۰۰,۰۰۰ تومان
+        </div>
+
+        <div class="invoice-footer">
+            <p>ممنون از خرید شما!</p>
+            <p>لطفاً در صورت وجود هرگونه سوال یا مشکل با ما تماس بگیرید.</p>
+        </div>
+    </div>
+
+</body>
+</html>
